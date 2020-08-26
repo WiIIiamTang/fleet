@@ -711,7 +711,7 @@ Run rebuild to create it as soon as possible.')
                         return
 
                     main_location = os.path.dirname(os.path.realpath('bandori-cord'))
-                    song_path = os.path.abspath(os.path.realpath('queue') + '\\' + first_file)
+                    song_path = os.path.abspath(os.path.realpath('queue') + '/' + first_file)
 
                     if length_queue != 0:
                         print('song done, playing next in queue')
