@@ -4,7 +4,8 @@ import discord
 import os
 
 
-cogs = ['bandori']
+cogs = ['bandori',
+        'job']
 
 load_dotenv()
 token = os.getenv('TOKEN')

@@ -10,6 +10,7 @@ import io
 import shutil
 import _pickle as pickle
 import youtube_dl
+from datetime import datetime
 from pydori import bandori_api
 from discord.ext import tasks, commands
 from discord.utils import get
@@ -913,6 +914,63 @@ Run rebuild to create it as soon as possible.')
                     print('Renamed file:', file)
 
                     os.rename(file, 'song.mp3')
+    
+
+
+
+
+
+    ####### event command.
+    @commands.command(name='eventnow')
+    async def current_event(self, ctx):
+        current = self.bapi.get_current_event()
+    
+        if current:
+            await ctx.channel.send(embed=self.format_event(current))
+
+
+
+    def format_event(self, event):
+        embed = discord.Embed(title = 'Current ongoing event:\n' + event.name)
+
+        main = event.get_main_card()
+        boostm = [m.name for m in event.get_boost_members()]
+        start = event.get_start_date().strftime("%m/%d/%Y")
+        end = event.get_end_date().strftime("%m/%d/%Y")
+        
+        embed.set_image(url=event.data['english_image'])
+        embed.set_thumbnail(url=main.image_trained)
+
+        embed.add_field(name = 'Name', value = event.name)
+        embed.add_field(name = 'Type', value = event.type)
+        embed.add_field(name = 'Date', value = f'From {start}\nto {end}', inline=False)
+        embed.add_field(name = 'Main card', value = (main.name, main.id), inline=False)
+        
+        embed.add_field(name = 'Boost attribute', value = event.boost_attribute, inline=False)
+        embed.add_field(name = 'Boost members', value = boostm, inline=False)
+
+
+
+        return embed
+
+
+    ###### gacha command
+    @commands.command(name='gachanow')
+    async def current_gachas(self, ctx):
+        current = self.bapi2.get_active_gachas()
+        
+        if current:
+            gachas = [(e.name, e.id, e) for e in current]
+            embed = discord.Embed(title='__Current active gachas__')
+            for gacha in gachas:
+                embed.add_field(name = gacha[0],
+                 value = f'id: {gacha[1]}\n{gacha[2].get_start_date().strftime("%m/%d/%Y")} - {gacha[2].get_end_date().strftime("%m/%d/%Y")}',
+                 inline=False)
+            
+            image = self.db['items'][0]
+            embed.set_thumbnail(url=image.image)
+
+            await ctx.channel.send(embed=embed)
 
 
    
@@ -928,5 +986,7 @@ Run rebuild to create it as soon as possible.')
 
 
 
+################################################################################
+# add cog to bot.
 def setup(bot):
     bot.add_cog(BandoriViewer(bot))
