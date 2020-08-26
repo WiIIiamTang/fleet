@@ -816,7 +816,7 @@ Run rebuild to create it as soon as possible.')
                 self.queue[queue_number] = queue_number
                 break
 
-        queue_path = os.path.abspath(os.path.realpath('queue') + f'\\song{queue_number}.mp3')
+        queue_path = os.path.abspath(os.path.realpath('queue') + f'/song{queue_number}.mp3')
 
         if id is not None and id.isdigit():
             for song in self.db["songs"]:
