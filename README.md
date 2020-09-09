@@ -113,6 +113,8 @@ Pass a valid string to *songname* to get the song (must match exactly, capitals 
 Music player: plays the bandori song with the passed id, or the youtube url if that is given instead. Bandori songs are game-sized in length.
 
 
+#### Other
+
 ```
 ;eventnow
 ```
