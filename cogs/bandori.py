@@ -43,6 +43,7 @@ class BandoriViewer(commands.Cog):
     '''
 
     DB_PATH = 'data/'
+    latest = datetime.now()
 
     rarity_colors = {
         2 : 0x0f7d6e,
@@ -255,6 +256,7 @@ Run rebuild to create it as soon as possible.')
             if job_result:
                 await ctx.channel.send('Ok! I\'m done updating.')
                 logging.warning(f'Successfully updated database at {BandoriViewer.DB_PATH}. Restart the cog!')
+                latest = datetime.now()
             else:
                 logging.error('There was an error. The database did not update correctly.')
     
@@ -973,7 +975,9 @@ Run rebuild to create it as soon as possible.')
             await ctx.channel.send(embed=embed)
 
 
-   
+    @commands.command(name='latestupdate')
+    async def get_latest(self, ctx):
+        await ctx.channel.send(latest)
     
 
 
